@@ -3,23 +3,16 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
-    resolutionStrategy {
-        eachPlugin {
-            if (requested.id.id == 'io.quarkus') {
-                useModule("io.quarkus:quarkus-gradle-plugin:0.23.1")
-            }
-        }
-    }
 }
 rootProject.name = 'coffeeshop'
-include 'ddd-commons'
 
-include 'inventory-domain'
-include 'inventory-application'
-include 'inventory-web'
-include 'coffee-application'
-include 'coffee-domain'
-include 'coffee-web'
-include 'orders-application'
-include 'orders-domain'
-include 'orders-web'
+include 'ddd-commons',
+        'inventory-domain',
+//        'inventory-application',
+//        'inventory-web',
+//        'coffee-application',
+        'coffee-domain',
+//        'coffee-web',
+        'orders-application',
+        'orders-domain',
+        'orders-web'

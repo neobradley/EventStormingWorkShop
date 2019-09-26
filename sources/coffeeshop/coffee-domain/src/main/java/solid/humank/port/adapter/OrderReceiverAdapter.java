@@ -16,12 +16,7 @@ package solid.humank.port.adapter;
 import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import solid.humank.domain.model.Order;
 import solid.humank.domain.model.OrderMakeup;
-
-import java.io.IOException;
 
 public class OrderReceiverAdapter implements RequestHandler<OrderCreatedEvent, OrderMakeup> {
 
@@ -36,16 +31,16 @@ public class OrderReceiverAdapter implements RequestHandler<OrderCreatedEvent, O
         logger.log("yoyo");
         logger.log(orderCreatedEvent.toString());
 
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            String orderString= mapper.writeValueAsString(orderCreatedEvent.getDetail());
-            logger.log(orderString);
-            mapper.readValue(orderString, Order.class);
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        ObjectMapper mapper = new ObjectMapper();
+//        try {
+//            String orderString= mapper.writeValueAsString(orderCreatedEvent.getDetail());
+//            logger.log(orderString);
+//            mapper.readValue(orderString, Order.class);
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         return null;
     }
