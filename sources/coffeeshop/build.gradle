@@ -50,14 +50,14 @@ subprojects { dir ->
 
     if (dir.name.endsWith("-domain")) {
         dependencies {
-            implementation project(":ddd-commons")
+            compile project(":ddd-commons")
         }
     }
 
     if (dir.name.endsWith("-application")) {
         String modName = dir.name.substring(0, dir.name.lastIndexOf("-application"))
         dependencies {
-            implementation project(":ddd-commons"), project(":${modName}-domain")
+            compile project(":ddd-commons"), project(":${modName}-domain")
         }
     }
 
