@@ -20,6 +20,7 @@ buildscript {
 
 apply from: file("${rootDir}/gradle/project.gradle")
 
+def lombok = "org.projectlombok:lombok:${lombokVersion}"
 List testCompilePackage = ["io.quarkus:quarkus-junit5:${quarkusJunitVersion}", "io.rest-assured:rest-assured:${restAssuredVersion}"]
 List testImplementPackage = ["io.cucumber:cucumber-java8:${cucumberVersion}", "io.cucumber:cucumber-junit:${cucumberVersion}"]
 List implementationPackage = ["io.quarkus:quarkus-resteasy",
@@ -32,10 +33,10 @@ List implementationPackage = ["io.quarkus:quarkus-resteasy",
 subprojects { dir ->
     dependencies {
         // Lombok Support
-        compileOnly "org.projectlombok:lombok:${lombokVersion}"
-        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-        testCompileOnly "org.projectlombok:lombok:${lombokVersion}"
-        testAnnotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        compileOnly lombok
+        annotationProcessor lombok
+        testCompileOnly lombok
+        testAnnotationProcessor lombok
         // quarkus test
         testCompile testCompilePackage
         // cucumber test
@@ -47,22 +48,23 @@ subprojects { dir ->
         implementation platform("software.amazon.awssdk:bom:${awsVersion}")
         implementation implementationPackage
     }
-
-    if (dir.name.endsWith("-domain")) {
+    def mod = dir.name
+    if (mod.endsWith("-domain")) {
+        println(dir.name + " ends with domain")
         dependencies {
             compile project(":ddd-commons")
         }
     }
 
-    if (dir.name.endsWith("-application")) {
-        String modName = dir.name.substring(0, dir.name.lastIndexOf("-application"))
+    if (mod.endsWith("-application")) {
+        String modName = dir.name.substring(0, mod.lastIndexOf("-application"))
         dependencies {
             compile project(":ddd-commons"), project(":${modName}-domain")
         }
     }
 
-    if (dir.name.endsWith("-web")) {
-        String modName = dir.name.substring(0, dir.name.lastIndexOf("-web"))
+    if (mod.endsWith("-web")) {
+        String modName = mod.substring(0, mod.lastIndexOf("-web"))
         dependencies {
             implementation project(":ddd-commons"), project(":${modName}-domain"), project(":${modName}-application")
         }
